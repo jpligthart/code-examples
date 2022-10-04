@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using SingleFileExamples.Interfaces;
 
 namespace SingleFileExamples.Examples;
 
-public class LoopPerformanceMeasurement
+public class LoopPerformanceMeasurement : IExample
 {
     private const int MaxValue = 10_000_000;
 

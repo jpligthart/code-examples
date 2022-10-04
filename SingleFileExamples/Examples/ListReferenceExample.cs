@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SingleFileExamples.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace SingleFileExamples.Examples
 {
-    public class ListReferenceIssueTester
+    public class ListReferenceIssueTester : IExample
     {
         public void Execute()
         {
