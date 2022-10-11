@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using SingleFileExamples.Interfaces;
+using System.Drawing;
 
 namespace SingleFileExamples.Examples;
 
@@ -51,16 +52,25 @@ public class LoopPerformanceMeasurement : IExample
         }
     }
 
-    private void PrintTimerResult(bool isFound, Stopwatch stopwatch)
+    private static void PrintTimerResult(bool isFound, Stopwatch stopwatch)
     {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
         if (isFound)
         {
-            Console.WriteLine($"Found value in {stopwatch.Elapsed} milliseconds");
+            Console.WriteLine($"Found value in {GetFormattedTimeSpan(stopwatch.Elapsed)} seconds");
         }
         else
         {
-            Console.WriteLine($"Not Found! And search duration is {stopwatch.ElapsedMilliseconds} milliseconds");
+            Console.WriteLine($"Not Found! And search duration is {GetFormattedTimeSpan(stopwatch.Elapsed)} seconds");
         }
+
+        Console.ResetColor();
+    }
+
+    private static string GetFormattedTimeSpan(TimeSpan elapsedTime)
+    {
+        return $"{elapsedTime:ss},{elapsedTime:fffffff}";
     }
 }
 
