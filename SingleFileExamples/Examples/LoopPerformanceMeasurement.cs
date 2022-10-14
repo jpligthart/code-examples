@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using SingleFileExamples.Interfaces;
-using System.Drawing;
+using SingleFileExamples.Helpers;
 
 namespace SingleFileExamples.Examples;
 
 public class LoopPerformanceMeasurement : IExample
 {
     private const int MaxValue = 10_000_000;
+    private const int ValueToSearch = MaxValue - 1;
 
     private readonly List<int> _data = new();
 
@@ -17,10 +15,9 @@ public class LoopPerformanceMeasurement : IExample
     {
         InitDataCollection();
 
-        int valueToSearch = MaxValue - 1;
-        string genericMessage = $"Find value '{valueToSearch}' using ";
+        string genericMessage = $"Find value '{ValueToSearch}' using ";
 
-        TestMethodDefinition loopTester = new(_data, valueToSearch);
+        TestMethodDefinition loopTester = new(_data, ValueToSearch);
 
         Console.WriteLine("Testing started: ");
         ExecuteTestMethod($"{genericMessage} foreach", loopTester.TestFindWithForeach);
@@ -58,19 +55,14 @@ public class LoopPerformanceMeasurement : IExample
 
         if (isFound)
         {
-            Console.WriteLine($"Found value in {GetFormattedTimeSpan(stopwatch.Elapsed)} seconds");
+            Console.WriteLine($"Found value in {ConsoleHelper.GetFormattedTimeSpan(stopwatch.Elapsed)} seconds");
         }
         else
         {
-            Console.WriteLine($"Not Found! And search duration is {GetFormattedTimeSpan(stopwatch.Elapsed)} seconds");
+            Console.WriteLine($"Not Found! And search duration is {ConsoleHelper.GetFormattedTimeSpan(stopwatch.Elapsed)} seconds");
         }
 
         Console.ResetColor();
-    }
-
-    private static string GetFormattedTimeSpan(TimeSpan elapsedTime)
-    {
-        return $"{elapsedTime:ss},{elapsedTime:fffffff}";
     }
 }
 
@@ -133,6 +125,4 @@ public class TestMethodDefinition
 
         return isFound;
     }
-
-
 }

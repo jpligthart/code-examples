@@ -1,6 +1,5 @@
-﻿using SingleFileExamples.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using SingleFileExamples.Helpers;
+using SingleFileExamples.Interfaces;
 
 namespace SingleFileExamples.Examples
 {
@@ -21,18 +20,12 @@ namespace SingleFileExamples.Examples
             WriteListToConsole(tester.Values);
         }
 
-        private void WriteListToConsole(IEnumerable<int> list)
+        private static void WriteListToConsole(IEnumerable<int> list)
         {
-            Console.WriteLine("------");
-
-            foreach (int value in list)
-            {
-                Console.WriteLine(value);
-            }
-
-            Console.WriteLine("------");
+            ConsoleHelper.WriteSeparator();
+            ConsoleHelper.WriteList(list);
+            ConsoleHelper.WriteSeparator();
         }
-
     }
 
     public class ExampleObject
@@ -46,6 +39,5 @@ namespace SingleFileExamples.Examples
             _values.Add(2);
             _values.Add(3);
         }
-
     }
 }
