@@ -78,11 +78,6 @@ public class TestMethodDefinition
         _searchedValue = searchedValue;
     }
 
-    private bool IsSearchedValue(int element)
-    {
-        return element == _searchedValue;
-    }
-
     public bool TestFindWithFor()
     {
         for (int i = 0; i < _dataCollection.Count; i++)
@@ -125,4 +120,10 @@ public class TestMethodDefinition
 
         return isFound;
     }
+
+    private bool IsSearchedValue(int element)
+    {
+        return element == _searchedValue;
+    }
+
 }
