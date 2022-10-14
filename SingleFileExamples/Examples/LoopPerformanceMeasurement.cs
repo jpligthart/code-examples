@@ -6,6 +6,8 @@ namespace SingleFileExamples.Examples;
 
 public class LoopPerformanceMeasurement : IExample
 {
+    public string Name => "Loop Performance Tester";
+
     private const int MaxValue = 10_000_000;
     private const int ValueToSearch = MaxValue - 1;
 
@@ -51,18 +53,14 @@ public class LoopPerformanceMeasurement : IExample
 
     private static void PrintTimerResult(bool isFound, Stopwatch stopwatch)
     {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-
         if (isFound)
         {
-            Console.WriteLine($"Found value in {ConsoleHelper.GetFormattedTimeSpan(stopwatch.Elapsed)} seconds");
+            ConsoleHelper.WriteColoredLine(ConsoleColor.Yellow, $"Found value in {stopwatch.Elapsed.GetFormatInSecondsString()} seconds");
         }
         else
         {
-            Console.WriteLine($"Not Found! And search duration is {ConsoleHelper.GetFormattedTimeSpan(stopwatch.Elapsed)} seconds");
+            ConsoleHelper.WriteColoredLine(ConsoleColor.Red, $"Not Found! And search duration is {stopwatch.Elapsed.GetFormatInSecondsString()} seconds");
         }
-
-        Console.ResetColor();
     }
 }
 

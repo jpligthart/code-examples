@@ -8,6 +8,8 @@ namespace SingleFileExamples.Interfaces;
 
 internal interface IExample
 {
+    string Name => GetType().Name;
+
     void Execute();
 }
 

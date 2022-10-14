@@ -1,16 +1,15 @@
-﻿using SingleFileExamples.Interfaces;
+﻿using SingleFileExamples.Helpers;
+using SingleFileExamples.Interfaces;
 
 internal class Program
 {
-    private const int SeparatorWidth = 70;
-    private const char ExitProgramCommand = 'q';
+    private const int ExitProgramCommand = 0;
     private const string Prompt = "> ";
 
     public static void Main(string[] args)
     {
         RunExamples();
     }
-
 
     public static void RunExamples()
     {
@@ -20,52 +19,47 @@ internal class Program
         {
             ShowMenu(examples);
 
-            int selectedIndex = GetUserInput();
+            int selectedIndex;
+            while (!ConsoleHelper.GetNumberFromUser(out selectedIndex))
+            {
+                Console.WriteLine($"Please enter a valid number.");
+                Console.Write(Prompt);
+            }
 
-            if (selectedIndex > examples.Count || selectedIndex <= 0)
+            if (selectedIndex == 0) Environment.Exit(0);
+
+            if (selectedIndex > examples.Count || selectedIndex < 0)
             {
                 Console.WriteLine();
                 Console.WriteLine($"{selectedIndex} is not a valid example ID; select one from the given options!");
+                Console.Write(Prompt);
             }
             else
             {
                 IExample currentExample = examples[selectedIndex - 1];
                 Console.Clear();
-                Console.WriteLine($"Started example {selectedIndex}: {currentExample.GetType().Name}");
-                Console.WriteLine();
 
+                ConsoleHelper.WriteColoredLine(ConsoleColor.Yellow, $"Started example {selectedIndex}: {currentExample.Name}{Environment.NewLine}");
+                
                 currentExample.Execute();
             }
         }
     }
 
-    /// <summary>
-    /// Current way of getting input makes it a max of 9 examples ... for now good enough
-    /// </summary>
-    /// <returns></returns>
-    private static int GetUserInput()
-    {
-        char input = Console.ReadKey().KeyChar;
-        if (input == ExitProgramCommand) Environment.Exit(0);
-
-        return input - (int)'0'; // Question for the students: What happens here?!
-
-    }
-
     private static void ShowMenu(IEnumerable<IExample> examples)
     {
-        Console.WriteLine(Environment.NewLine + new string('_', SeparatorWidth) + Environment.NewLine);
-        Console.WriteLine("Which example do you want to run?");
+        ConsoleHelper.WriteSeparator();
+        ConsoleHelper.WriteColoredLine(ConsoleColor.Yellow, "Which example do you want to run?");
 
         int index = 0;
         foreach (IExample example in examples)
         {
-            Console.WriteLine($"   {++index}  :  {example.GetType().Name}");
+            Console.WriteLine($"   {++index}  :  {example.Name}");
         }
 
-        Console.WriteLine();
-        Console.WriteLine($"   {ExitProgramCommand}  :  Stop program");
-        Console.WriteLine(new string('_', SeparatorWidth) + Environment.NewLine);
+        Console.WriteLine($"{Environment.NewLine}   {ExitProgramCommand}  :  Stop program");
+        
+        ConsoleHelper.WriteSeparator();
 
         Console.Write(Prompt);
     }

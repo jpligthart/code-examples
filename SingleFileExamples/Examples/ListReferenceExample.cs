@@ -5,6 +5,8 @@ namespace SingleFileExamples.Examples
 {
     public class ListReferenceIssueTester : IExample
     {
+        public string Name => "List Reference Issue Tester";
+
         public void Execute()
         {
             Console.WriteLine("Hello World!");

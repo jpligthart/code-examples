@@ -23,9 +23,18 @@ namespace SingleFileExamples.Helpers
             Console.WriteLine(new string('_', width) + Environment.NewLine);
         }
 
-        public static string GetFormattedTimeSpan(TimeSpan elapsedTime)
+        public static bool GetNumberFromUser(out int number)
         {
-            return $"{elapsedTime:ss},{elapsedTime:fffffff}";
+            string line = Console.ReadLine() ?? "";
+
+            return int.TryParse(line, out number);
+        }
+
+        public static void WriteColoredLine(ConsoleColor foregroundColor, string message)
+        {
+            Console.ForegroundColor = foregroundColor;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
     }
 }
