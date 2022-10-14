@@ -17,36 +17,43 @@ internal class Program
 
         while (true)
         {
-            ShowMenu(examples);
+            ShowExampleMenu(examples);
 
-            int selectedIndex;
-            while (!ConsoleHelper.GetNumberFromUser(out selectedIndex))
-            {
-                Console.WriteLine($"Please enter a valid number.");
-                Console.Write(Prompt);
-            }
-
-            if (selectedIndex == 0) Environment.Exit(0);
-
-            if (selectedIndex > examples.Count || selectedIndex < 0)
-            {
-                Console.WriteLine();
-                Console.WriteLine($"{selectedIndex} is not a valid example ID; select one from the given options!");
-                Console.Write(Prompt);
-            }
-            else
-            {
-                IExample currentExample = examples[selectedIndex - 1];
-                Console.Clear();
-
-                ConsoleHelper.WriteColoredLine(ConsoleColor.Yellow, $"Started example {selectedIndex}: {currentExample.Name}{Environment.NewLine}");
-                
-                currentExample.Execute();
-            }
+            IExample? example = GetSelectedExampleFromUserInput(examples);
+            if(example != null) example.Execute();
         }
     }
 
-    private static void ShowMenu(IEnumerable<IExample> examples)
+    private static IExample? GetSelectedExampleFromUserInput(List<IExample> examples)
+    {
+        int selectedIndex;
+        while (!ConsoleHelper.GetNumberFromUser(out selectedIndex))
+        {
+            Console.WriteLine($"Please enter a valid number.");
+            Console.Write(Prompt);
+        }
+
+        if (selectedIndex == 0) Environment.Exit(0);
+
+        if (selectedIndex > examples.Count || selectedIndex < 0)
+        {
+            Console.WriteLine($"{Environment.NewLine}{selectedIndex} is not a valid example ID; select one from the given options!");
+            Console.Write(Prompt);
+        }
+        else
+        {
+            IExample currentExample = examples[selectedIndex - 1];
+            Console.Clear();
+
+            ConsoleHelper.WriteColoredLine(ConsoleColor.Yellow, $"Started example {selectedIndex}: {currentExample.Name}{Environment.NewLine}");
+
+            return currentExample;
+        }
+
+        return null;
+    }
+
+    private static void ShowExampleMenu(IEnumerable<IExample> examples)
     {
         ConsoleHelper.WriteSeparator();
         ConsoleHelper.WriteColoredLine(ConsoleColor.Yellow, "Which example do you want to run?");
